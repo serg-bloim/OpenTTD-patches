@@ -5199,7 +5199,6 @@ void VpStartPlaceSizing(TileIndex tile, ViewportPlaceMethod method, ViewportDrag
 	} else if (_thd.place_mode & (HT_RAIL | HT_LINE)) {
 		_thd.place_mode = HT_SPECIAL | others;
 		_thd.next_drawstyle = _thd.drawstyle | others;
-		_current_snap_lock.x = -1;
 		if ((_thd.place_mode & HT_POLY) != 0 && GetRailSnapMode() == RSM_NO_SNAP) {
 			SetRailSnapMode(RSM_SNAP_TO_TILE);
 			SetRailSnapTile(tile);
@@ -5839,7 +5838,7 @@ static HighLightStyle CalcPolyrailDrawstyle(Point pt, bool dragging)
 	/* find the best track */
 	PolylineInfo line;
 
-	bool lock_snapping = dragging && snap_mode == RSM_SNAP_TO_RAIL;
+	bool lock_snapping = (dragging || _option_pressed) && snap_mode == RSM_SNAP_TO_RAIL;
 	if (!lock_snapping) _current_snap_lock.x = -1;
 
 	const LineSnapPoint *snap_point;
